@@ -11,7 +11,7 @@ An online bookstore with two main sections:
 
 ## ⚠ CRITICAL: Existing Front-end Code Rules
 
-> **ALL 27 pages (HTML/CSS/Bootstrap) are already coded from Figma and approved.**
+> **ALL 30 pages (HTML/CSS/Bootstrap) are already coded from Figma and approved.**
 > **60 product images are prepared in `public/images/products/`.**
 > **JavaScript logic is implemented in `public/js/`.**
 > The front-end is COMPLETE. Back-end integration must preserve it.
@@ -73,7 +73,7 @@ online-book-webstore/
 │   ├── orderModel.js         # Orders, order items, order history
 │   └── wishlistModel.js      # Wishlist CRUD
 │
-├── views/                    # EJS templates (27 pages from Figma)
+├── views/                    # EJS templates (30 pages from Figma)
 │   ├── partials/
 │   │   ├── navbar.ejs        # Nav: categories dropdown, search bar, cart icon, user menu
 │   │   ├── footer.ejs        # Footer links, contact info
@@ -108,7 +108,7 @@ online-book-webstore/
 │       ├── dashboard.ejs                  # 2. Dashboard Overview — sales stats, recent orders
 │       ├── categories.ejs                 # 3. Category Management — CRUD + hide/show toggle
 │       ├── products.ejs                   # 4. Product Management — list by category
-│       ├── inventory.ejs                # 5. Add/Edit Product — form with image upload
+│       ├── inventory.ejs                  # 5. Inventory — Add/Edit Product form with image upload
 │       ├── customers.ejs                  # 6. Customer Management — user list, details
 │       ├── orders.ejs                     # 7. Orders Management — order list, status, details
 │       └── adminProfile.ejs              # 8. Admin Profile — edit admin account
@@ -117,11 +117,15 @@ online-book-webstore/
 │   ├── css/
 │   │   └── style.css         # Custom styles (Bootstrap 5 loaded via CDN)
 │   ├── js/
-│   │   ├── main.js           # Homepage interactivity, search bar, pagination
-│   │   ├── cart.js           # Cart add/remove/update, checkout flow
+│   │   ├── main.js           # Homepage interactivity, navbar badge updates, scroll animations
+│   │   ├── pagination.js     # Client-side pagination (15 items/page, DOM events)
+│   │   ├── cart.js           # Cart CRUD (localStorage → will switch to session)
 │   │   ├── wishlist.js       # Wishlist add/remove toggle
-│   │   ├── account.js        # Profile edit, address book CRUD
-│   │   └── backoffice.js     # Admin-side JS (tables, modals, confirmations)
+│   │   ├── search.js         # Search bar submit + results filtering
+│   │   ├── checkout.js       # Checkout flow + payment confirmation
+│   │   ├── account.js        # Profile edit, address book CRUD, order history
+│   │   ├── validation.js     # Client-side form validation (login, register, profile)
+│   │   └── admin.js          # Admin-side JS (tables, modals, delete confirm, toggle)
 │   └── images/
 │       └── products/         # Product image uploads (via multer)
 │
@@ -183,9 +187,9 @@ online-book-webstore/
 │      href="/css/style.css"> ← CSS (custom styles)       │
 │  </head>                                                │
 │  <body>                                                 │
-│    <h1><%= product.name %></h1>  ← EJS tag (dynamic)   │
+│    <h1><%= product.product_name %></h1>  ← EJS tag (dynamic)   │
 │    <p class="text-primary">      ← Bootstrap class      │
-│      <%= product.price %> Baht                          │
+│      <%= product.product_price %> Baht                          │
 │    </p>                                                 │
 │                                                         │
 │    <script src="jquery.js"></script>  ← jQuery CDN      │
@@ -312,7 +316,7 @@ CREATE TABLE orders (
     status ENUM('pending', 'completed', 'cancelled') DEFAULT 'completed',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses(address_id) ON SET NULL
+    FOREIGN KEY (address_id) REFERENCES addresses(address_id) ON DELETE SET NULL
 );
 
 CREATE TABLE order_items (
@@ -633,7 +637,7 @@ docker-compose down            # Stop containers
 - Use prepared statements (`?` placeholders) for ALL SQL queries — never concatenate user input
 - EJS partials for reusable components (navbar, footer, product cards)
 - Routes grouped by concern:
-  - `/` and `/category/:id` for webstore browsing
+  - `/` and `/category/*` for webstore browsing
   - `/auth` for login/register/logout
   - `/cart` and `/checkout` for shopping flow
   - `/account` for profile, order history, wishlist, address book
