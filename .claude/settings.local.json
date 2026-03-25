@@ -3,7 +3,10 @@
     "allow": [
       "Bash(ls -la /c/Users/earth/OneDrive/Desktop/Project-final-term2/termproject-2025-low-cortisol/*.js)",
       "Bash(find /c/Users/earth/OneDrive/Desktop/Project-final-term2/termproject-2025-low-cortisol/views/partials -type f -name *.ejs)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(npm start:*)",
+      "Bash(curl:*)",
+      "Bash(node -e \":*)"
     ]
   }
 }
