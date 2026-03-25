@@ -9,6 +9,30 @@ An online bookstore with two main sections:
 
 ---
 
+## ⚠ CRITICAL: Existing Front-end Code Rules
+
+> **ALL 30 pages (HTML/CSS/Bootstrap) are already coded from Figma and approved.**
+> **60 product images are prepared in `public/images/products/`.**
+> **JavaScript logic is implemented in `public/js/`.**
+> The front-end is COMPLETE. Back-end integration must preserve it.
+
+### NEVER do these:
+
+- **NEVER rewrite, redesign, or restructure existing HTML/EJS templates** — the layout is final from Figma
+- **NEVER change, delete, or reorganize existing CSS** — the visual design is locked
+- **NEVER replace Bootstrap components** with alternatives
+- **NEVER change file names** in `views/` or `public/` — only rename `.html` → `.ejs`
+- **NEVER change color scheme, fonts, spacing, or any visual property**
+
+### ALWAYS do these:
+
+- **ALWAYS read the existing view file first** before adding EJS tags or routes
+- **ALWAYS preserve the exact HTML structure** — add EJS tags around existing content, not replace it
+- **ALWAYS match the existing code style** (indentation, class naming, structure)
+- **ALWAYS test that the page looks identical** after adding EJS tags or connecting routes
+
+---
+
 ## Architecture
 
 ```
@@ -49,36 +73,42 @@ online-book-webstore/
 │   ├── orderModel.js         # Orders, order items, order history
 │   └── wishlistModel.js      # Wishlist CRUD
 │
-├── views/                    # EJS templates (27 pages from Figma)
+├── views/                    # EJS templates (30 pages from Figma)
 │   ├── partials/
 │   │   ├── navbar.ejs        # Nav: categories dropdown, search bar, cart icon, user menu
 │   │   ├── footer.ejs        # Footer links, contact info
 │   │   └── productCard.ejs   # Reusable product card (image, name, price, wishlist btn)
 │   │
-│   ├── webstore/                          # --- STOREFRONT (19 pages) ---
+│   ├── webstore/                          # --- STOREFRONT (22 pages) ---
 │   │   ├── home.ejs                       # 1.  Homepage — highlighted products, carousel, interactive elements
 │   │   ├── allCategories.ejs              # 2.  All Categories — grid of all 5 category cards
-│   │   ├── category.ejs                   # 3-7. Category page (reused for Fiction, Children, Non-Fiction, Mystery, Sci-Tech)
-│   │   ├── productDetail.ejs              # 8.  Product Detail — images, description, attributes, add to cart
-│   │   ├── cart.ejs                       # 9.  Shopping Cart — item list, quantities, totals
-│   │   ├── contact.ejs                    # 10. Contact — address, map API
-│   │   ├── checkout.ejs                   # 11. Checkout — order summary, shipping info
-│   │   ├── choosePayment.ejs              # 12. Choose Payment Method — payment options (simulated)
-│   │   ├── orderHistory.ejs               # 13. Order History — past orders list + details
-│   │   ├── wishlist.ejs                   # 14. Wishlist — saved products
-│   │   ├── addressBook.ejs                # 15. Address Book — manage shipping addresses
-│   │   ├── faq.ejs                        # 16. FAQ — accordion Q&A
-│   │   ├── login.ejs                      # 17. Login form
-│   │   ├── register.ejs                   # 17. Sign Up form (same Figma page as Login)
-│   │   ├── profile.ejs                    # 18. Account Profile — edit name, email, password
-│   │   └── search.ejs                     # 19. Search Results — filtered product list
+│   │   ├── allProducts.ejs                # 3.  All Products — every product across categories
+│   │   ├── category-fiction.ejs            # 4.  Fiction category
+│   │   ├── category-children.ejs           # 5.  Children category
+│   │   ├── category-nonfiction.ejs         # 6.  Non-Fiction category
+│   │   ├── category-mystery.ejs            # 7.  Mystery & Thriller category
+│   │   ├── category-science.ejs            # 8.  Science & Technology category
+│   │   ├── product-detail.ejs              # 9.  Product Detail — images, description, attributes, add to cart
+│   │   ├── cart.ejs                       # 10. Shopping Cart — item list, quantities, totals
+│   │   ├── contact.ejs                    # 11. Contact — address, map API
+│   │   ├── checkout.ejs                   # 12. Checkout — order summary, shipping info
+│   │   ├── choosePayment.ejs              # 13. Choose Payment Method — payment options (simulated)
+│   │   ├── condition.ejs                  # 14. Terms & Conditions
+│   │   ├── orderHistory.ejs               # 15. Order History — past orders list + details
+│   │   ├── wishlist.ejs                   # 16. Wishlist — saved products
+│   │   ├── addressBook.ejs                # 17. Address Book — manage shipping addresses
+│   │   ├── faq.ejs                        # 18. FAQ — accordion Q&A
+│   │   ├── login.ejs                      # 19. Login form
+│   │   ├── register.ejs                   # 20. Sign Up form
+│   │   ├── account.ejs                    # 21. Account Profile — edit name, email, password
+│   │   └── search-results.ejs             # 22. Search Results — filtered product list
 │   │
 │   └── backoffice/                        # --- ADMIN (8 pages) ---
 │       ├── login.ejs                      # 1. Admin Login
 │       ├── dashboard.ejs                  # 2. Dashboard Overview — sales stats, recent orders
 │       ├── categories.ejs                 # 3. Category Management — CRUD + hide/show toggle
 │       ├── products.ejs                   # 4. Product Management — list by category
-│       ├── productForm.ejs                # 5. Add/Edit Product — form with image upload
+│       ├── inventory.ejs                  # 5. Inventory — Add/Edit Product form with image upload
 │       ├── customers.ejs                  # 6. Customer Management — user list, details
 │       ├── orders.ejs                     # 7. Orders Management — order list, status, details
 │       └── adminProfile.ejs              # 8. Admin Profile — edit admin account
@@ -87,11 +117,15 @@ online-book-webstore/
 │   ├── css/
 │   │   └── style.css         # Custom styles (Bootstrap 5 loaded via CDN)
 │   ├── js/
-│   │   ├── main.js           # Homepage interactivity, search bar, pagination
-│   │   ├── cart.js           # Cart add/remove/update, checkout flow
+│   │   ├── main.js           # Homepage interactivity, navbar badge updates, scroll animations
+│   │   ├── pagination.js     # Client-side pagination (15 items/page, DOM events)
+│   │   ├── cart.js           # Cart CRUD (localStorage → will switch to session)
 │   │   ├── wishlist.js       # Wishlist add/remove toggle
-│   │   ├── account.js        # Profile edit, address book CRUD
-│   │   └── backoffice.js     # Admin-side JS (tables, modals, confirmations)
+│   │   ├── search.js         # Search bar submit + results filtering
+│   │   ├── checkout.js       # Checkout flow + payment confirmation
+│   │   ├── account.js        # Profile edit, address book CRUD, order history
+│   │   ├── validation.js     # Client-side form validation (login, register, profile)
+│   │   └── admin.js          # Admin-side JS (tables, modals, delete confirm, toggle)
 │   └── images/
 │       └── products/         # Product image uploads (via multer)
 │
@@ -104,18 +138,18 @@ online-book-webstore/
 
 ### Page Count Summary
 
-| Section      | Pages | Figma pages                                                |
+| Section      | Pages | Files                                                |
 | ------------ | ----- | ---------------------------------------------------------- |
-| Webstore     | 19    | Home, All Categories, 5 Category pages (1 reusable EJS), Product Detail, Cart, Contact, Checkout, Payment, Order History, Wishlist, Address Book, FAQ, Login, Register, Profile, Search |
-| Back-office  | 8     | Admin Login, Dashboard, Categories, Products, Add/Edit Product, Customers, Orders, Admin Profile |
-| **Total**    | **27** | **27 Figma pages → 24 EJS files** (5 category pages share 1 template) |
+| Webstore     | 22    | Home, All Categories, All Products, 5 Category pages (separate files), Product Detail, Cart, Contact, Checkout, Payment, Condition, Order History, Wishlist, Address Book, FAQ, Login, Register, Account, Search Results |
+| Back-office  | 8     | Admin Login, Dashboard, Categories, Products, Inventory, Customers, Orders, Admin Profile |
+| **Total**    | **30** | **30 EJS files + 3 partials** |
 
-### Reusable Templates (important for Figma → code efficiency)
+### Reusable Templates (important for code efficiency)
 
-- **`category.ejs`** — Used for ALL 5 category pages (Fiction, Children, Non-Fiction, Mystery & Thriller, Science & Tech). The category name and products change via data from the controller, but the layout is identical. You only code this once.
-- **`partials/productCard.ejs`** — The product card component appears on: Home, All Categories, Category pages, Search Results, and Wishlist. Code it once, include everywhere.
+- **`partials/productCard.ejs`** — The product card component appears on: Home, All Categories, All Products, Category pages, Search Results, and Wishlist. Code it once, include everywhere.
 - **`partials/navbar.ejs`** — Appears on every webstore page. Includes category dropdown, search bar, cart badge, user menu.
 - **`partials/footer.ejs`** — Appears on every page.
+- **Note**: Each category has its own file (`category-fiction.ejs`, `category-children.ejs`, etc.) instead of one shared template. The layout is similar but each file exists separately.
 
 ---
 
@@ -153,9 +187,9 @@ online-book-webstore/
 │      href="/css/style.css"> ← CSS (custom styles)       │
 │  </head>                                                │
 │  <body>                                                 │
-│    <h1><%= product.name %></h1>  ← EJS tag (dynamic)   │
+│    <h1><%= product.product_name %></h1>  ← EJS tag (dynamic)   │
 │    <p class="text-primary">      ← Bootstrap class      │
-│      <%= product.price %> Baht                          │
+│      <%= product.product_price %> Baht                          │
 │    </p>                                                 │
 │                                                         │
 │    <script src="jquery.js"></script>  ← jQuery CDN      │
@@ -282,7 +316,7 @@ CREATE TABLE orders (
     status ENUM('pending', 'completed', 'cancelled') DEFAULT 'completed',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (address_id) REFERENCES addresses(address_id) ON SET NULL
+    FOREIGN KEY (address_id) REFERENCES addresses(address_id) ON DELETE SET NULL
 );
 
 CREATE TABLE order_items (
@@ -323,7 +357,7 @@ CREATE TABLE faqs (
 
 ---
 
-## Webstore Feature Checklist (19 pages)
+## Webstore Feature Checklist (22 pages)
 
 ### Navigation Bar — `partials/navbar.ejs` (on every webstore page)
 
@@ -354,15 +388,26 @@ CREATE TABLE faqs (
 - [ ] Each card links to the corresponding category page
 - [ ] Only show categories where `is_visible = TRUE`
 
-### 3-7. Category Pages — `webstore/category.ejs` (ONE template, reused for all 5)
+### 3. All Products — `webstore/allProducts.ejs`
 
+- [ ] Display product list from ALL categories combined
+- [ ] **Pagination: max 15 products per page** — use client-side DOM events (jQuery)
+- [ ] Each product card links to product detail page
+
+### 4-8. Category Pages — 5 separate files:
+- `webstore/category-fiction.ejs`
+- `webstore/category-children.ejs`
+- `webstore/category-nonfiction.ejs`
+- `webstore/category-mystery.ejs`
+- `webstore/category-science.ejs`
+
+Each category page:
 - [ ] Category name displayed as page title
 - [ ] Show PRODUCT LIST filtered by selected category
 - [ ] **Pagination: max 15 products per page** — use client-side DOM events (jQuery)
 - [ ] Each product card links to product detail page
-- [ ] URL pattern: `/category/:categoryId` (Fiction=1, Children=2, Non-Fiction=3, Mystery=4, Sci-Tech=5)
 
-### 8. Product Detail — `webstore/productDetail.ejs`
+### 9. Product Detail — `webstore/product-detail.ejs`
 
 - [ ] Product name, description, images (gallery/carousel), price
 - [ ] Product attributes selector (e.g., format: hardcover/paperback)
@@ -370,7 +415,7 @@ CREATE TABLE faqs (
 - [ ] "Add to Cart" button (**requires login** — redirect to login if not authenticated)
 - [ ] "Add to Wishlist" heart button (toggle on/off)
 
-### 9. Shopping Cart — `webstore/cart.ejs`
+### 10. Shopping Cart — `webstore/cart.ejs`
 
 - [ ] List of selected products with quantity, attributes, unit price, line total
 - [ ] Grand total of all items
@@ -378,40 +423,47 @@ CREATE TABLE faqs (
 - [ ] "Proceed to Checkout" button → goes to checkout page
 - [ ] Requires login
 
-### 10. Contact — `webstore/contact.ejs`
+### 11. Contact — `webstore/contact.ejs`
 
 - [ ] Shop address displayed
 - [ ] **Map API** (Google Maps or Leaflet/OpenStreetMap) showing pin at shop address
 - [ ] Contact info: phone, email, business hours
 
-### 11. Checkout — `webstore/checkout.ejs`
+### 12. Checkout — `webstore/checkout.ejs`
 
 - [ ] Order summary (items, quantities, prices)
 - [ ] Select shipping address from address book (or add new)
 - [ ] "Continue to Payment" button → goes to payment method page
 - [ ] Requires login
 
-### 12. Choose Payment Method — `webstore/choosePayment.ejs`
+### 13. Choose Payment Method — `webstore/choosePayment.ejs`
 
 - [ ] Display payment options (Credit Card, Bank Transfer, Cash on Delivery)
 - [ ] **NO real payment integration** — selecting a method and clicking "Confirm" completes the order
 - [ ] On confirm: creates order record, clears cart, redirects to order success/history
 - [ ] Requires login
 
-### 13. Order History — `webstore/orderHistory.ejs`
+### 14. Terms & Conditions — `webstore/condition.ejs`
+
+- [ ] Terms of service content
+- [ ] Return/refund policy
+- [ ] Privacy policy section
+- [ ] Mostly static content
+
+### 15. Order History — `webstore/orderHistory.ejs`
 
 - [ ] List of past orders (order ID, date, total, status)
 - [ ] Click to expand/view order details (items, quantities, prices)
 - [ ] Requires login
 
-### 14. Wishlist — `webstore/wishlist.ejs`
+### 16. Wishlist — `webstore/wishlist.ejs`
 
 - [ ] List of saved products (image, name, price)
 - [ ] "Add to Cart" button per item
 - [ ] "Remove from Wishlist" button per item
 - [ ] Requires login
 
-### 15. Address Book — `webstore/addressBook.ejs`
+### 17. Address Book — `webstore/addressBook.ejs`
 
 - [ ] List of saved addresses with labels (Home, Work, etc.)
 - [ ] Add new address form
@@ -420,26 +472,26 @@ CREATE TABLE faqs (
 - [ ] Set default address
 - [ ] Requires login
 
-### 16. FAQ — `webstore/faq.ejs`
+### 18. FAQ — `webstore/faq.ejs`
 
 - [ ] Accordion-style Q&A (Bootstrap Accordion component)
 - [ ] Data from `faqs` table (or hardcoded if simpler)
 
-### 17. Login & Sign Up — `webstore/login.ejs` + `webstore/register.ejs`
+### 19-20. Login & Sign Up — `webstore/login.ejs` + `webstore/register.ejs`
 
 - [ ] Login form (email + password)
 - [ ] Register form (username, email, password, confirm password)
 - [ ] Error messages for invalid credentials / validation
 - [ ] Redirect to previous page after login (or homepage)
 
-### 18. Account Profile — `webstore/profile.ejs`
+### 21. Account Profile — `webstore/account.ejs`
 
 - [ ] Display current user info (username, email, phone)
 - [ ] Edit profile form (change name, email, phone)
 - [ ] Change password form (current + new + confirm)
 - [ ] Requires login
 
-### 19. Search Results — `webstore/search.ejs`
+### 22. Search Results — `webstore/search-results.ejs`
 
 - [ ] Show products matching search term (search by `product_name` using SQL LIKE)
 - [ ] Display search term at top
@@ -477,7 +529,7 @@ CREATE TABLE faqs (
 - [ ] Product table with image thumbnail, name, price, category
 - [ ] Quick actions: edit, delete per row
 
-### 5. Add/Edit Product — `backoffice/productForm.ejs`
+### 5. Add/Edit Product — `backoffice/inventory.ejs`
 
 - [ ] Form: product name, description, price, category (dropdown), attributes (JSON)
 - [ ] Image upload via multer (multiple images)
@@ -507,46 +559,52 @@ CREATE TABLE faqs (
 
 ## URL Routing Map
 
-| Method | URL                           | Controller Function              | EJS Template              | Auth     |
-| ------ | ----------------------------- | -------------------------------- | ------------------------- | -------- |
-| GET    | `/`                           | `webstore.home`                  | `webstore/home`           | —        |
-| GET    | `/categories`                 | `webstore.allCategories`         | `webstore/allCategories`  | —        |
-| GET    | `/category/:id`               | `webstore.category`              | `webstore/category`       | —        |
-| GET    | `/product/:id`                | `webstore.productDetail`         | `webstore/productDetail`  | —        |
-| GET    | `/search?q=`                  | `webstore.search`                | `webstore/search`         | —        |
-| GET    | `/contact`                    | `webstore.contact`               | `webstore/contact`        | —        |
-| GET    | `/faq`                        | `webstore.faq`                   | `webstore/faq`            | —        |
-| GET    | `/auth/login`                 | `auth.loginPage`                 | `webstore/login`          | —        |
-| POST   | `/auth/login`                 | `auth.login`                     | (redirect)                | —        |
-| GET    | `/auth/register`              | `auth.registerPage`              | `webstore/register`       | —        |
-| POST   | `/auth/register`              | `auth.register`                  | (redirect)                | —        |
-| GET    | `/auth/logout`                | `auth.logout`                    | (redirect)                | —        |
-| GET    | `/cart`                       | `cart.viewCart`                   | `webstore/cart`           | Customer |
-| POST   | `/cart/add`                   | `cart.addItem`                   | (redirect/AJAX)           | Customer |
-| POST   | `/cart/update`                | `cart.updateItem`                | (redirect/AJAX)           | Customer |
-| POST   | `/cart/remove`                | `cart.removeItem`                | (redirect/AJAX)           | Customer |
-| GET    | `/checkout`                   | `cart.checkout`                  | `webstore/checkout`       | Customer |
-| GET    | `/checkout/payment`           | `cart.choosePayment`             | `webstore/choosePayment`  | Customer |
-| POST   | `/checkout/confirm`           | `cart.confirmOrder`              | (redirect to orders)      | Customer |
-| GET    | `/account/profile`            | `account.profile`                | `webstore/profile`        | Customer |
-| POST   | `/account/profile`            | `account.updateProfile`          | (redirect)                | Customer |
-| GET    | `/account/orders`             | `account.orderHistory`           | `webstore/orderHistory`   | Customer |
-| GET    | `/account/wishlist`           | `account.wishlist`               | `webstore/wishlist`       | Customer |
-| POST   | `/account/wishlist/toggle`    | `account.toggleWishlist`         | (AJAX)                    | Customer |
-| GET    | `/account/addresses`          | `account.addressBook`            | `webstore/addressBook`    | Customer |
-| POST   | `/account/addresses/add`      | `account.addAddress`             | (redirect)                | Customer |
-| POST   | `/account/addresses/edit/:id` | `account.editAddress`            | (redirect)                | Customer |
-| POST   | `/account/addresses/delete/:id`| `account.deleteAddress`         | (redirect)                | Customer |
-| GET    | `/backoffice/login`           | `auth.adminLoginPage`            | `backoffice/login`        | —        |
-| POST   | `/backoffice/login`           | `auth.adminLogin`                | (redirect)                | —        |
-| GET    | `/backoffice`                 | `backoffice.dashboard`           | `backoffice/dashboard`    | Admin    |
-| GET    | `/backoffice/categories`      | `backoffice.categories`          | `backoffice/categories`   | Admin    |
-| GET    | `/backoffice/products`        | `backoffice.products`            | `backoffice/products`     | Admin    |
-| GET    | `/backoffice/products/add`    | `backoffice.productForm`         | `backoffice/productForm`  | Admin    |
-| GET    | `/backoffice/products/edit/:id`| `backoffice.productForm`        | `backoffice/productForm`  | Admin    |
-| GET    | `/backoffice/customers`       | `backoffice.customers`           | `backoffice/customers`    | Admin    |
-| GET    | `/backoffice/orders`          | `backoffice.orders`              | `backoffice/orders`       | Admin    |
-| GET    | `/backoffice/profile`         | `backoffice.adminProfile`        | `backoffice/adminProfile` | Admin    |
+| Method | URL                           | Controller Function              | EJS Template                  | Auth     |
+| ------ | ----------------------------- | -------------------------------- | ----------------------------- | -------- |
+| GET    | `/`                           | `webstore.home`                  | `webstore/home`               | —        |
+| GET    | `/categories`                 | `webstore.allCategories`         | `webstore/allCategories`      | —        |
+| GET    | `/products`                   | `webstore.allProducts`           | `webstore/allProducts`        | —        |
+| GET    | `/category/fiction`           | `webstore.categoryFiction`       | `webstore/category-fiction`   | —        |
+| GET    | `/category/children`          | `webstore.categoryChildren`      | `webstore/category-children`  | —        |
+| GET    | `/category/nonfiction`        | `webstore.categoryNonfiction`    | `webstore/category-nonfiction`| —        |
+| GET    | `/category/mystery`           | `webstore.categoryMystery`       | `webstore/category-mystery`   | —        |
+| GET    | `/category/science`           | `webstore.categoryScience`       | `webstore/category-science`   | —        |
+| GET    | `/product/:id`                | `webstore.productDetail`         | `webstore/product-detail`     | —        |
+| GET    | `/search?q=`                  | `webstore.search`                | `webstore/search-results`     | —        |
+| GET    | `/contact`                    | `webstore.contact`               | `webstore/contact`            | —        |
+| GET    | `/condition`                  | `webstore.condition`             | `webstore/condition`          | —        |
+| GET    | `/faq`                        | `webstore.faq`                   | `webstore/faq`                | —        |
+| GET    | `/auth/login`                 | `auth.loginPage`                 | `webstore/login`              | —        |
+| POST   | `/auth/login`                 | `auth.login`                     | (redirect)                    | —        |
+| GET    | `/auth/register`              | `auth.registerPage`              | `webstore/register`           | —        |
+| POST   | `/auth/register`              | `auth.register`                  | (redirect)                    | —        |
+| GET    | `/auth/logout`                | `auth.logout`                    | (redirect)                    | —        |
+| GET    | `/cart`                       | `cart.viewCart`                   | `webstore/cart`               | Customer |
+| POST   | `/cart/add`                   | `cart.addItem`                   | (redirect/AJAX)               | Customer |
+| POST   | `/cart/update`                | `cart.updateItem`                | (redirect/AJAX)               | Customer |
+| POST   | `/cart/remove`                | `cart.removeItem`                | (redirect/AJAX)               | Customer |
+| GET    | `/checkout`                   | `cart.checkout`                  | `webstore/checkout`           | Customer |
+| GET    | `/checkout/payment`           | `cart.choosePayment`             | `webstore/choosePayment`      | Customer |
+| POST   | `/checkout/confirm`           | `cart.confirmOrder`              | (redirect to orders)          | Customer |
+| GET    | `/account/profile`            | `account.profile`                | `webstore/account`            | Customer |
+| POST   | `/account/profile`            | `account.updateProfile`          | (redirect)                    | Customer |
+| GET    | `/account/orders`             | `account.orderHistory`           | `webstore/orderHistory`       | Customer |
+| GET    | `/account/wishlist`           | `account.wishlist`               | `webstore/wishlist`           | Customer |
+| POST   | `/account/wishlist/toggle`    | `account.toggleWishlist`         | (AJAX)                        | Customer |
+| GET    | `/account/addresses`          | `account.addressBook`            | `webstore/addressBook`        | Customer |
+| POST   | `/account/addresses/add`      | `account.addAddress`             | (redirect)                    | Customer |
+| POST   | `/account/addresses/edit/:id` | `account.editAddress`            | (redirect)                    | Customer |
+| POST   | `/account/addresses/delete/:id`| `account.deleteAddress`         | (redirect)                    | Customer |
+| GET    | `/backoffice/login`           | `auth.adminLoginPage`            | `backoffice/login`            | —        |
+| POST   | `/backoffice/login`           | `auth.adminLogin`                | (redirect)                    | —        |
+| GET    | `/backoffice`                 | `backoffice.dashboard`           | `backoffice/dashboard`        | Admin    |
+| GET    | `/backoffice/categories`      | `backoffice.categories`          | `backoffice/categories`       | Admin    |
+| GET    | `/backoffice/products`        | `backoffice.products`            | `backoffice/products`         | Admin    |
+| GET    | `/backoffice/inventory`       | `backoffice.inventory`           | `backoffice/inventory`        | Admin    |
+| GET    | `/backoffice/inventory/:id`   | `backoffice.inventoryEdit`       | `backoffice/inventory`        | Admin    |
+| GET    | `/backoffice/customers`       | `backoffice.customers`           | `backoffice/customers`        | Admin    |
+| GET    | `/backoffice/orders`          | `backoffice.orders`              | `backoffice/orders`           | Admin    |
+| GET    | `/backoffice/profile`         | `backoffice.adminProfile`        | `backoffice/adminProfile`     | Admin    |
 
 ---
 
@@ -579,7 +637,7 @@ docker-compose down            # Stop containers
 - Use prepared statements (`?` placeholders) for ALL SQL queries — never concatenate user input
 - EJS partials for reusable components (navbar, footer, product cards)
 - Routes grouped by concern:
-  - `/` and `/category/:id` for webstore browsing
+  - `/` and `/category/*` for webstore browsing
   - `/auth` for login/register/logout
   - `/cart` and `/checkout` for shopping flow
   - `/account` for profile, order history, wishlist, address book
@@ -673,10 +731,11 @@ SESSION_SECRET=change-this-to-random-string
 2. **Products in hidden categories must NOT show** anywhere on the webstore
 3. **Customer must be logged in** to add items to cart, wishlist, checkout, view order history, manage addresses
 4. **No real payment** — choosing a payment method and clicking confirm just completes the order and clears the cart
-5. **Product images** stored in `/public/images/products/` and served statically
+5. **Product images** stored in `/public/images/products/` — 60 images already prepared
 6. **Map on contact page** must pin the shop's actual address
 7. **product_attributes** is JSON — supports things like `{"format": ["hardcover", "paperback", "ebook"]}`
 8. The project integrates with **SE234** — must use Git, GitHub, Docker, and docker-compose
-9. **category.ejs is ONE template** reused for all 5 categories — the route parameter `/category/:categoryId` determines which data to show
-10. **27 Figma pages → 24 EJS files** — the 5 category pages (Fiction, Children, Non-Fiction, Mystery, Sci-Tech) share 1 template
+9. **Each category has its own file** — `category-fiction.ejs`, `category-children.ejs`, etc. (5 separate files, not 1 shared template)
+10. **30 pages total** — 22 webstore + 8 backoffice + 3 partials
 11. **Checkout flow is 3 steps**: Cart → Checkout (address) → Choose Payment → Order Complete (redirect to order history)
+12. **Front-end code is LOCKED** — all HTML/CSS from Figma is approved. Back-end must add EJS tags without changing layout or styles
