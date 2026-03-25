@@ -1,27 +1,19 @@
 ---
 name: Bug Report
-about: ใช้ฟอร์มนี้สำหรับแจ้งข้อผิดพลาดของระบบ
-title: '[BUG] '
+about: Use this form to report system errors.
+title: '[BUG]'
 labels: bug
 assignees: ''
 ---
 
-**อธิบายบั๊กที่พบ**
-อธิบายสั้นๆ และชัดเจนว่าเกิดปัญหาอะไรขึ้น
+**Description**
+Shortly and clearly describe what problem occurred.
 
-**ขั้นตอนที่ทำให้เกิดบั๊ก (Steps to reproduce)**
-1. ไปที่หน้า '...'
-2. คลิกที่ '...'
-3. เลื่อนลงไปที่ '...'
-4. จะพบข้อผิดพลาด '...'
+**Steps to reproduce the bug:**
+1. Go to page '...'
+2. Click on '...'
+3. Scroll down to '...'
+4. You will find the error '...'
 
-**สิ่งที่คาดหวัง (Expected behavior)**
-อธิบายว่าจริงๆ แล้วระบบควรจะต้องทำงานอย่างไร
-
-**ภาพหน้าจอ (Screenshots)**
-(ถ้ามี) ลากไฟล์รูปภาพมาวางที่นี่เพื่อช่วยให้เห็นภาพชัดเจนขึ้น
-
-**ข้อมูลระบบ (Environment):**
- - OS: [เช่น Windows, macOS]
- - Browser: [เช่น Chrome, Safari]
- - Version: [เช่น 22]
+**Screenshots**
+(If available)

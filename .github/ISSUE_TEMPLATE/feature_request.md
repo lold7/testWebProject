@@ -1,19 +1,16 @@
 ---
 name: Feature Request
-about: เสนอแนะไอเดียหรือฟีเจอร์ใหม่ๆ สำหรับโปรเจกต์
-title: '[FEATURE] '
+about: Suggesting new ideas or features for the project.
+title: '[FEATURE]'
 labels: enhancement
 assignees: ''
 ---
 
-**ฟีเจอร์นี้แก้ปัญหาอะไร? (Is your feature request related to a problem?)**
-อธิบายปัญหาที่เจอ เช่น "เวลาผู้ใช้งานเข้ามาที่หน้าเว็บไซต์แล้วรู้สึกว่า... เพราะ..."
+**What problem does this feature solve?**
+Describe the problem you encountered.
 
-**อธิบายฟีเจอร์ที่ต้องการ (Describe the solution you'd like)**
-อธิบายสั้นๆ และชัดเจนว่าอยากให้ระบบทำอะไรได้บ้าง เช่น "อยากให้มีปุ่ม..." หรือ "อยากให้มีหน้าสำหรับ..."
+**Describe the desired feature (Describe the solution you'd like)**
+Simply and clearly explain what you want the system to be able to do.
 
-**ทางเลือกอื่นที่คิดไว้ (Describe alternatives you've considered)**
-(ถ้ามี) ไอเดียอื่นๆ ที่อาจจะทำแทนได้ หรือวิธีแก้ปัญหาแบบชั่วคราวที่ใช้อยู่ตอนนี้
-
-**ข้อมูลเพิ่มเติม (Additional context)**
-(ถ้ามี) ลากไฟล์รูปภาพ Mockup ดีไซน์มาวาง, แปะลิงก์อ้างอิง (เช่น ลิงก์จาก Figma), หรือข้อมูลอื่นๆ ที่ช่วยให้ทีมพัฒนาเข้าใจง่ายขึ้น
+**Additional context**
+(If any)
